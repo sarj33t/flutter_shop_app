@@ -1,0 +1,58 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/api_constants.dart';
+import 'package:flutter_shop_app/src/core/app_router.dart';
+import 'package:flutter_shop_app/src/modules/authentication/view/splash_view.dart';
+import 'package:flutter_shop_app/src/modules/cart/bloc/cart_cubit.dart';
+import 'package:flutter_shop_app/src/modules/cart/repository/cart_repository.dart';
+import 'package:flutter_shop_app/src/modules/product/bloc/product_cubit.dart';
+import 'package:flutter_shop_app/src/modules/product/repository/product_repository.dart';
+import 'package:flutter_shop_app/src/network/api_client.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+void main() {
+  /// Setup Networking Client on App Launch
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl
+    )
+  );
+  dio.interceptors.add(LogInterceptor());
+  final apiClient = ApiClient(dio);
+
+  /// Register Bloc and Repository Providers Globally
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        RepositoryProvider(create: (ctx) => ProductRepository(apiClient)),
+        RepositoryProvider(create: (ctx) => CartRepository()),
+
+        BlocProvider(create: (ctx) => ProductCubit(ctx.read<ProductRepository>())),
+        BlocProvider(create: (ctx) => CartCubit(ctx.read<CartRepository>())),
+      ],
+      child: ProductApp()
+    )
+  );
+}
+
+/// [ProductApp]
+class ProductApp extends StatelessWidget {
+  const ProductApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Product App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      onGenerateRoute: AppRouter.generateRoute,
+      navigatorKey: AppRouter.navigatorKey,
+      home: const SplashView(),
+      // home: CartScreen(),
+    );
+  }
+}
+
