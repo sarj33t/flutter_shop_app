@@ -1,12 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/core/api_constants.dart';
-import 'package:flutter_shop_app/src/core/app_router.dart';
-import 'package:flutter_shop_app/src/modules/authentication/view/splash_view.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_cubit.dart';
-import 'package:flutter_shop_app/src/modules/cart/repository/cart_repository.dart';
-import 'package:flutter_shop_app/src/modules/product/bloc/product_cubit.dart';
-import 'package:flutter_shop_app/src/modules/product/repository/product_repository.dart';
+import 'package:flutter_shop_app/src/core/core.dart';
+import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
+import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:flutter_shop_app/src/network/api_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,9 +23,11 @@ void main() {
       providers: [
         RepositoryProvider(create: (ctx) => ProductRepository(apiClient)),
         RepositoryProvider(create: (ctx) => CartRepository()),
+        RepositoryProvider(create: (ctx) => AuthRepository()),
 
         BlocProvider(create: (ctx) => ProductCubit(ctx.read<ProductRepository>())),
         BlocProvider(create: (ctx) => CartCubit(ctx.read<CartRepository>())),
+        BlocProvider(create: (ctx) => AuthCubit(ctx.read<AuthRepository>())),
       ],
       child: ProductApp()
     )

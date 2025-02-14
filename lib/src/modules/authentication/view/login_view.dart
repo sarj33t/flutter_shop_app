@@ -1,24 +1,22 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/core/app_router.dart';
-import 'package:flutter_shop_app/src/widgets/custom_appbar.dart';
-import 'package:flutter_shop_app/src/widgets/reusable_widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shop_app/src/core/core.dart';
+import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
+import 'package:flutter_shop_app/src/widgets/widgets_exports.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu
 /// @DATE : 11/02/25
 /// @Message : [LoginView]
 ///
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
-
-  @override
-  LoginViewState createState() => LoginViewState();
-}
-
-class LoginViewState extends State<LoginView> {
+class LoginView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  LoginView({super.key});
 
   // Validate Email
   String? _validateEmail(String? value) {
@@ -41,67 +39,102 @@ class LoginViewState extends State<LoginView> {
   }
 
   // Sign In function
-  void _signIn() {
+  void _signIn(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
-      AppRouter.pushReplacementNamed(AppRouter.routeProductList);
+      context.read<AuthCubit>().login();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
         title: 'Sign In',
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
+      body: BlocBuilder<AuthCubit, AuthState>(
+        bloc: context.read<AuthCubit>(),
+        builder: (BuildContext context, AuthState state) {
+          if(state.apiStatus == ApiStatus.idle){
+            return loginForm(context);
+          }
+          if(state.apiStatus == ApiStatus.loading){
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                loginForm(context),
+                Align(
+                  alignment: Alignment.center,
+                  child: CupertinoActivityIndicator(),
+                ),
+              ],
+            );
+          }
+          if(state.apiStatus == ApiStatus.success && state.isAuthenticated){
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              AppRouter.pushReplacementNamed(AppRouter.routeProductList);
+            });
+          }
+          if(state.apiStatus == ApiStatus.success && !state.isAuthenticated){
+            return loginForm(context);
+          }
+          return SizedBox();
+        },
+      )
+    );
+  }
 
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Image.asset('assets/images/splash.png'),
-              ),
+  // Login Form
+  Widget loginForm(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Form(
+        key: _formKey,
+        child: Stack(
+          fit: StackFit.expand,
+          children: <Widget>[
 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Image.asset('assets/images/splash.png'),
+            ),
 
-                  ReusableWidgets.getDescriptiveTxt(),
-                  SizedBox(height: 36.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
 
-                  // Email Field
-                  ReusableWidgets.getTxtFormField('Email', 'Enter your email', _emailController, _validateEmail),
-                  SizedBox(height: 16.0),
+                ReusableWidgets.getDescriptiveTxt(),
+                SizedBox(height: 36.0),
 
-                  // Password Field
-                  ReusableWidgets.getTxtFormField('Password', 'Enter your password', _passwordController,
-                      _validatePassword, isPassword: true),
-                  SizedBox(height: 12.0),
+                // Email Field
+                ReusableWidgets.getTxtFormField('Email', 'Enter your email', _emailController, _validateEmail),
+                SizedBox(height: 16.0),
 
-                  Center(
-                    child: GestureDetector(
-                      onTap: (){
-                        // Navigator.pushNamed(context, AppRouter.routeSignUp);
-                        AppRouter.pushNamed(AppRouter.routeSignUp);
-                      }, child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('New User? Register', style: TextStyle(color: Colors.blue, fontSize: 16.0),),
-                      )
-                    ),
+                // Password Field
+                ReusableWidgets.getTxtFormField('Password', 'Enter your password', _passwordController,
+                    _validatePassword, isPassword: true),
+                SizedBox(height: 12.0),
+
+                Center(
+                  child: GestureDetector(
+                    onTap: (){
+                      AppRouter.pushNamed(AppRouter.routeSignUp);
+                    }, child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('New User? Register', style: TextStyle(color: Colors.blue, fontSize: 16.0),),
+                  )
                   ),
-                  SizedBox(height: 16.0),
+                ),
+                SizedBox(height: 16.0),
 
-                  // Sign In Button
-                  ReusableWidgets.getButton('Sign In', _signIn)
-                ],
-              ),
-            ],
-          ),
+                // Sign In Button
+                ReusableWidgets.getButton('Sign In', (){
+                  _signIn(context);
+                })
+              ],
+            ),
+          ],
         ),
       ),
     );

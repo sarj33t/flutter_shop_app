@@ -1,13 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_cubit.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_state.dart';
-import 'package:flutter_shop_app/src/modules/cart/view/cart_list.dart';
-import 'package:flutter_shop_app/src/modules/cart/view/empty_cart.dart';
+import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
 import 'package:flutter_shop_app/src/modules/product/bloc/product_state.dart';
 import 'package:flutter_shop_app/src/utils/app_utils.dart';
-import 'package:flutter_shop_app/src/widgets/custom_appbar.dart';
-import 'package:flutter_shop_app/src/widgets/reusable_widgets.dart';
+import 'package:flutter_shop_app/src/widgets/widgets_exports.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///

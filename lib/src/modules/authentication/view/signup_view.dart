@@ -1,28 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/widgets/custom_appbar.dart';
-import 'package:flutter_shop_app/src/widgets/reusable_widgets.dart';
+import 'package:flutter_shop_app/src/utils/app_utils.dart';
+import 'package:flutter_shop_app/src/widgets/widgets_exports.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu
 /// @DATE : 11/02/25
 /// @Message : [SignupView]
 ///
-class SignupView extends StatefulWidget {
-  const SignupView({super.key});
-
-  @override
-  SignupViewState createState() => SignupViewState();
-}
-
-class SignupViewState extends State<SignupView> {
+class SignupView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
 
+  SignupView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
         title: 'Register New Account',
@@ -57,7 +53,9 @@ class SignupViewState extends State<SignupView> {
                       _validatePassword, isPassword: true),
                   SizedBox(height: 36.0),
 
-                  ReusableWidgets.getButton('Sign Up', _onSignUp)
+                  ReusableWidgets.getButton('Sign Up', (){
+                    _onSignUp(context);
+                  })
                 ],
               )
             ],
@@ -87,11 +85,13 @@ class SignupViewState extends State<SignupView> {
     return null;
   }
 
-  void _onSignUp() {
+  void _onSignUp(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Signup Successful!')),
-      );
+      if(_passwordController.text == _confirmPasswordController.text){
+        AppUtils.instance.showToast('Signup Successful!');
+      }else{
+        AppUtils.instance.showToast('Passwords must match!');
+      }
     }
   }
 }

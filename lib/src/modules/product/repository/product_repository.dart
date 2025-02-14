@@ -1,8 +1,5 @@
 import 'package:flutter_shop_app/src/models/api_response.dart';
-import 'package:flutter_shop_app/src/modules/product/data/category.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product_list_response.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product_details_response.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:flutter_shop_app/src/network/api_client.dart';
 
 ///

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/modules/authentication/view/login_view.dart';
-import 'package:flutter_shop_app/src/modules/authentication/view/signup_view.dart';
-import 'package:flutter_shop_app/src/modules/cart/view/cart_screen.dart';
-import 'package:flutter_shop_app/src/modules/product/view/product_details.dart';
-import 'package:flutter_shop_app/src/modules/product/view/product_screen.dart';
+import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
+import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu

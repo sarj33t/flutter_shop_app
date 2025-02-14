@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_cubit.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_state.dart';
-import 'package:flutter_shop_app/src/modules/cart/data/cart_item.dart';
+import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///
@@ -119,7 +117,10 @@ class CartItemCard extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         GestureDetector(
-          child: Icon(Icons.add_circle_outline, size: 18.0, color: Colors.green,),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 8.0),
+            child: Icon(Icons.add_circle_outline, size: 24.0, color: Colors.green,),
+          ),
           onTap: (){
             cartItem.quantity = cartItem.quantity +=1;
             context.read<CartCubit>().updateItem(cartItem);
@@ -129,7 +130,10 @@ class CartItemCard extends StatelessWidget {
         const SizedBox(width: 12.0,),
 
         GestureDetector(
-          child: Icon(Icons.remove_circle_outline, size: 18.0, color: Colors.red,),
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0, right: 8.0),
+            child: Icon(Icons.remove_circle_outline, size: 24.0, color: Colors.red,),
+          ),
           onTap: (){
             if(cartItem.quantity > 1){
               cartItem.quantity = cartItem.quantity -=1;

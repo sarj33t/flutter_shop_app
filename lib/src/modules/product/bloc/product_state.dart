@@ -1,7 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_shop_app/src/modules/product/data/product.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product_list_response.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product_details_response.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu

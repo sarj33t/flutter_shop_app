@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shop_app/src/core/app_router.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product_list_response.dart';
-import 'package:flutter_shop_app/src/modules/product/bloc/product_cubit.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///

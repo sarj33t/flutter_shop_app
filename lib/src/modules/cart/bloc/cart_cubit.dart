@@ -1,6 +1,4 @@
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_state.dart';
-import 'package:flutter_shop_app/src/modules/cart/data/cart_item.dart';
-import 'package:flutter_shop_app/src/modules/cart/repository/cart_repository.dart';
+import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
 import 'package:flutter_shop_app/src/modules/product/bloc/product_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

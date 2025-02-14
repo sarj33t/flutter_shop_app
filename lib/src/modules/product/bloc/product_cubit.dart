@@ -1,7 +1,5 @@
 import 'package:flutter_shop_app/src/models/api_response.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product.dart';
-import 'package:flutter_shop_app/src/modules/product/bloc/product_state.dart';
-import 'package:flutter_shop_app/src/modules/product/repository/product_repository.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///

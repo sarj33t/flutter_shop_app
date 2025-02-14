@@ -1,4 +1,4 @@
-package com.sarj33t.flutter_shop_app
+package com.sarj33t.flutter_app
 
 import io.flutter.embedding.android.FlutterActivity
 

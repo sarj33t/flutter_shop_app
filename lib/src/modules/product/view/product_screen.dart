@@ -1,16 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/core/api_constants.dart';
-import 'package:flutter_shop_app/src/core/app_extensions.dart';
-import 'package:flutter_shop_app/src/core/app_router.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_cubit.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_state.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product.dart';
+import 'package:flutter_shop_app/src/core/core.dart';
+import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
+import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:badges/badges.dart' as badges;
-import 'package:flutter_shop_app/src/modules/product/bloc/product_cubit.dart';
-import 'package:flutter_shop_app/src/modules/product/bloc/product_state.dart';
-import 'package:flutter_shop_app/src/modules/product/view/product_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shop_app/src/utils/app_utils.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu
@@ -45,7 +41,6 @@ class _ProductScreenState extends State<ProductScreen> {
         centerTitle: false,
         title: Text('Products', style: TextStyle(color: Colors.white),),
         actions: [
-
           BlocBuilder<CartCubit, CartState>(
             buildWhen: (p, c) => p.cartItems != c.cartItems,
             builder: (context, state){
@@ -54,7 +49,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   AppRouter.pushNamed(AppRouter.routeCartScreen);
                 },
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
+                  padding: const EdgeInsets.only(right: 8.0),
                   child: badges.Badge(
                     showBadge: state.cartItems.isNotEmpty,
                     badgeContent: Text('${state.cartItems.length}',
@@ -72,58 +67,84 @@ class _ProductScreenState extends State<ProductScreen> {
               );
             },
           ),
+
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0, right: 12.0),
+            child: GestureDetector(
+              onTap: (){
+                context.read<AuthCubit>().logout();
+              },
+              child: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
+            ),
+          )
         ],
       ),
       backgroundColor: Colors.white,
-      body: BlocBuilder(
-        bloc: context.read<ProductCubit>(),
-        builder: (BuildContext context, ProductState state) {
-          if(state.error.isNotEmpty){
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(state.error),
-              ),
-            );
-          }
-          if(state.status == ApiStatus.success && state.products.isNotEmpty){
-            if(state.categories.isNotEmpty){
-              categories.clear();
-              categories.addAll(state.categories);
-            }
+      body: MultiBlocListener(
+        listeners: [
+          // Listen for changes in ProductCubit
+          BlocListener<ProductCubit, ProductState>(
+            listener: (context, state) {
+              if (state.error.isNotEmpty) {
+                AppUtils.instance.showToast(state.error);
+              }
 
-            productList.addAll(state.products);
-          }
-          return Stack(
-            children: [
-              Column(
-                children: [
-                  TextButton(
-                      onPressed: (){
-                        if(categories.isNotEmpty){
+              if (state.status == ApiStatus.success && state.products.isNotEmpty) {
+                if (state.categories.isNotEmpty) {
+                  categories.clear();
+                  categories.addAll(state.categories);
+                }
+                productList.addAll(state.products);
+              }
+            },
+          ),
+
+          // Listen for changes in AuthCubit (for logout)
+          BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (!state.isAuthenticated) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  AppRouter.pushReplacementNamed(AppRouter.routeLogin);
+                });
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<ProductCubit, ProductState>(
+          builder: (BuildContext context, ProductState state) {
+            return Stack(
+              children: [
+                Column(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        if (categories.isNotEmpty) {
                           showBottomSheetCategory();
                         }
-                      }, child: Text('Filter Products By Category')
-                  ),
-
-                  Expanded(
-                    child: ProductList(
-                      products: productList,
+                      },
+                      child: Text('Filter Products By Category'),
                     ),
-                  )
-                ],
-              ),
-
-              Visibility(
-                visible: state.status == ApiStatus.loading,
-                child: Align(
-                  child: CupertinoActivityIndicator(),
+                    Expanded(
+                      child: ProductList(
+                        products: productList,
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            ],
-          );
-        },
-      ),
+                Visibility(
+                  visible: state.status == ApiStatus.loading,
+                  child: Align(
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      )
     );
   }
 

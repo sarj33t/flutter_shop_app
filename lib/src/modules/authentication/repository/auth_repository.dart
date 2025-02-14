@@ -6,12 +6,12 @@
 class AuthRepository{
 
   // Login
-  void login() async{
-
+  Future<void> login() async{
+    await Future.delayed(Duration(milliseconds: 2000));
   }
 
   // Sign Up
-  void register() async{
-
+  Future<void> register() async{
+    await Future.delayed(Duration(milliseconds: 2000));
   }
 }

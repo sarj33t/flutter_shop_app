@@ -1,13 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/src/core/api_constants.dart';
-import 'package:flutter_shop_app/src/core/app_extensions.dart';
-import 'package:flutter_shop_app/src/modules/cart/bloc/cart_cubit.dart';
-import 'package:flutter_shop_app/src/modules/cart/data/cart_item.dart';
-import 'package:flutter_shop_app/src/modules/product/bloc/product_cubit.dart';
-import 'package:flutter_shop_app/src/modules/product/bloc/product_state.dart';
-import 'package:flutter_shop_app/src/modules/product/data/product.dart';
+import 'package:flutter_shop_app/src/core/core.dart';
+import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
+import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:flutter_shop_app/src/utils/app_utils.dart';
 import 'package:flutter_shop_app/src/widgets/reusable_widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

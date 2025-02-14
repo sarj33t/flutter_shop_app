@@ -15,6 +15,16 @@ class AuthState extends Equatable{
     this.apiStatus = ApiStatus.idle
   });
 
+  AuthState copyWith({
+    bool? authenticated,
+    ApiStatus? status
+  }){
+    return AuthState(
+      isAuthenticated: authenticated?? false,
+      apiStatus: status?? apiStatus
+    );
+  }
+
   @override
   List<Object?> get props => [
     isAuthenticated,
