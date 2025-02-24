@@ -57,8 +57,7 @@ class ShopApp extends StatelessWidget {
       ),
       onGenerateRoute: AppRouter.generateRoute,
       navigatorKey: AppRouter.navigatorKey,
-      home: const SplashView(),
-      // home: CartScreen(),
+      home: const SplashView()
     );
   }
 }

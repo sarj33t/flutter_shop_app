@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyDkziiGtRiHpjoEewMt3-CapqSRaQ2LCnE</string>
+	<string>AIzaSyCxcu2zXlGiqYPFsDT68nXcErXeureZvhw</string>
 	<key>GCM_SENDER_ID</key>
-	<string>342785573677</string>
+	<string>195062585963</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.sarj33t.flutterApp</string>
 	<key>PROJECT_ID</key>
-	<string>flutter-shop-app-75bf0</string>
+	<string>flutter-shop-app-sarj33t</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flutter-shop-app-75bf0.firebasestorage.app</string>
+	<string>flutter-shop-app-sarj33t.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:342785573677:ios:51d2fdd3420a8ee82a49a4</string>
+	<string>1:195062585963:ios:511d7efd1eb9dd66402f2e</string>
 </dict>
 </plist>
