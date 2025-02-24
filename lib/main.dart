@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_shop_app/firebase_options.dart';
 import 'package:flutter_shop_app/src/core/core.dart';
 import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
 import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
@@ -20,10 +18,6 @@ Future<void> main() async{
   );
   dio.interceptors.add(LogInterceptor());
   final apiClient = ApiClient(dio);
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   /// Register Bloc and Repository Providers Globally
   runApp(
