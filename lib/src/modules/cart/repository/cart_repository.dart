@@ -13,7 +13,6 @@ class CartRepository{
   /// Remove Item from Cart
   List<CartItem> removeItem(int productId, List<CartItem> items) {
     final List<CartItem> tempList = [...items];
-
     if(tempList.any((element) => element.id == productId)){
       tempList.removeWhere((element) => element.id == productId);
     }

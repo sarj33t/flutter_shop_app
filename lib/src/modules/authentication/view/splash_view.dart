@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop_app/src/core/app_router.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu
@@ -29,7 +30,7 @@ class _SplashViewState extends State<SplashView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/images/splash.png')
+            Image.asset(AppStrings.assetSplash)
           ],
         ),
       ),

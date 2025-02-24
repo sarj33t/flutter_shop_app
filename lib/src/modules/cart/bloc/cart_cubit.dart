@@ -10,9 +10,7 @@ class CartCubit extends Cubit<CartState>{
   /// Add Item
   void addItem(CartItem cartItem) async{
     emit(state.copyWith(status: ApiStatus.loading));
-
     final List<CartItem> itemList = repository.addItem(cartItem, state.cartItems);
-
     emit(
       state.copyWith(
         status: ApiStatus.success,
@@ -24,9 +22,7 @@ class CartCubit extends Cubit<CartState>{
   /// Remove Item
   void removeItem(int productId) {
     emit(state.copyWith(status: ApiStatus.loading));
-
     final List<CartItem> itemList = repository.removeItem(productId, state.cartItems);
-
     emit(
       state.copyWith(
         status: ApiStatus.success,
@@ -38,9 +34,7 @@ class CartCubit extends Cubit<CartState>{
   /// Update Item
   void updateItem(CartItem cartItem){
     emit(state.copyWith(status: ApiStatus.loading));
-
     final List<CartItem> itemList = repository.updateItem(cartItem, state.cartItems);
-
     emit(
       state.copyWith(
         status: ApiStatus.success,
@@ -67,11 +61,9 @@ class CartCubit extends Cubit<CartState>{
         status: ApiStatus.loading
       )
     );
-
     var items = state.cartItems;
     final List<CartItem> itemList = [];
     itemList.addAll(items);
-
     emit(
       state.copyWith(
         status: ApiStatus.success,

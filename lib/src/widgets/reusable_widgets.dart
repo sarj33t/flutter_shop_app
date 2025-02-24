@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/utils/hex_color.dart';
 
 ///
@@ -57,7 +58,7 @@ class ReusableWidgets{
   /// Descriptive Txt
   static Widget getDescriptiveTxt(){
     return Text(
-      'Buy Smart, Sell Easy',
+      AppStrings.tagline,
       textAlign: TextAlign.center,
       style: TextStyle(
         fontSize: 24.0,

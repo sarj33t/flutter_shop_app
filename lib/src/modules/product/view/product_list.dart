@@ -44,10 +44,7 @@ class ProductList extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: GestureDetector(
         onTap: () {
-          // Handle tap (e.g., navigate to product details page)
-          print('Tapped on ${product.title}');
-
-          Navigator.pushNamed(AppRouter.navigatorKey!.currentContext!, AppRouter.routeProductDetails,
+          Navigator.pushNamed(AppRouter.navigatorKey.currentContext!, AppRouter.routeProductDetails,
           arguments: {
             "product_id": product.id?? 0,
             "product_name": product.title?? ''

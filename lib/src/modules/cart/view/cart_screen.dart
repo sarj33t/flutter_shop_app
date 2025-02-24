@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
 import 'package:flutter_shop_app/src/modules/product/bloc/product_state.dart';
 import 'package:flutter_shop_app/src/utils/app_utils.dart';
@@ -19,7 +20,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: 'Your Shopping Cart',
+        title: AppStrings.yourShoppingCart,
       ),
       body: BlocBuilder<CartCubit, CartState>(
         bloc: context.read<CartCubit>()..fetchCartItems(),
@@ -40,20 +41,30 @@ class CartScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 20.0),
 
-                    BlocSelector<CartCubit, CartState, double>(
-                      selector: (state){
-                        return state.totalPrice;
-                      },
-                      builder: (context, cartItems){
-                        return _priceLabel('Total Price: \$${cartItems.toStringAsFixed(2)}');
-                      }
+                    Divider(),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        _priceLabel('${AppStrings.labelTotalPrice}: '),
+
+                        BlocSelector<CartCubit, CartState, double>(
+                            selector: (state){
+                              return state.totalPrice;
+                            },
+                            builder: (context, cartItems){
+                              return _priceLabel('\$${cartItems.toStringAsFixed(2)}');
+                            }
+                        ),
+                      ],
                     ),
+
                     SizedBox(height: 16.0),
 
                     SafeArea(
                       child: Center(
-                        child: ReusableWidgets.getButton('Proceed to Checkout', (){
-                          AppUtils.instance.showToast('Proceed to checkout!');
+                        child: ReusableWidgets.getButton(AppStrings.proceedToCheckout, (){
+                          AppUtils.instance.showToast(AppStrings.proceedToCheckout);
                         }),
                       ),
                     ),

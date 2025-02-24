@@ -15,12 +15,9 @@ class ProductRepository{
   Future<ApiResponse> fetchProducts(String path) async{
     try{
       final response = await apiClient.getApi(path);
-
       if(response.statusCode != null && response.statusCode == 200){
         if(response.data != null){
           final List<Product> products = ProductListResponse.fromJson(response.data).products?? [];
-          // final List<Product> products = (response.data as List<dynamic>)
-          //   .map((element) => ProductListResponse.fromJson(element).).toList();
           return ApiResponse(
             status: true,
             message: 'success',
@@ -47,7 +44,6 @@ class ProductRepository{
       if(response.statusCode != null && response.statusCode == 200){
         if(response.data != null){
           final List<String> categories = CategoryListResponse.fromJson(response.data).categories?? <String>[];
-            // .map((element) => element.toString()).toList();
           return ApiResponse(
             status: true,
             message: 'success',

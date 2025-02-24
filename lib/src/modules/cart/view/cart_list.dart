@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,7 +46,7 @@ class CartItemCard extends StatelessWidget {
             CachedNetworkImage(
               imageUrl: cartItem.imageUrl?? '',
               placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Image.asset('assets/images/splash.png', fit: BoxFit.fill,),
+              errorWidget: (context, url, error) => Image.asset(AppStrings.assetSplash, fit: BoxFit.fill,),
               fit: BoxFit.fill,
               width: 80.0,
               height: 80.0,
@@ -76,7 +77,7 @@ class CartItemCard extends StatelessWidget {
                     bloc: context.read<CartCubit>(),
                     buildWhen: (previous, current) => previous.cartItems != current.cartItems,
                     builder: (BuildContext context, CartState state) {
-                      return _labelTxt('Quantity: ${cartItem.quantity}');
+                      return _labelTxt('${AppStrings.labelQuantity}: ${cartItem.quantity}');
                     },
                   ),
                   SizedBox(height: 8.0),

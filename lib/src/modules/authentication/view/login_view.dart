@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/core/core.dart';
 import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
 import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
@@ -12,7 +13,7 @@ import 'package:flutter_shop_app/src/widgets/widgets_exports.dart';
 /// @Message : [LoginView]
 ///
 class LoginView extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -21,9 +22,9 @@ class LoginView extends StatelessWidget {
   // Validate Email
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return AppStrings.emptyEmailOrNull;
     } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-      return 'Please enter a valid email';
+      return AppStrings.validEmail;
     }
     return null;
   }
@@ -31,9 +32,9 @@ class LoginView extends StatelessWidget {
   // Validate Password
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return AppStrings.emptyPasswordOrNull;
     } else if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
+      return AppStrings.validPassword;
     }
     return null;
   }
@@ -51,7 +52,7 @@ class LoginView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: 'Sign In',
+        title: AppStrings.signIn
       ),
       body: BlocBuilder<AuthCubit, AuthState>(
         bloc: context.read<AuthCubit>(),
@@ -97,7 +98,7 @@ class LoginView extends StatelessWidget {
 
             Align(
               alignment: Alignment.bottomCenter,
-              child: Image.asset('assets/images/splash.png'),
+              child: Image.asset(AppStrings.assetSplash),
             ),
 
             Column(
@@ -108,11 +109,11 @@ class LoginView extends StatelessWidget {
                 SizedBox(height: 36.0),
 
                 // Email Field
-                ReusableWidgets.getTxtFormField('Email', 'Enter your email', _emailController, _validateEmail),
+                ReusableWidgets.getTxtFormField(AppStrings.email, AppStrings.enterEmail, _emailController, _validateEmail),
                 SizedBox(height: 16.0),
 
                 // Password Field
-                ReusableWidgets.getTxtFormField('Password', 'Enter your password', _passwordController,
+                ReusableWidgets.getTxtFormField(AppStrings.password, AppStrings.enterPassword, _passwordController,
                     _validatePassword, isPassword: true),
                 SizedBox(height: 12.0),
 
@@ -122,14 +123,14 @@ class LoginView extends StatelessWidget {
                       AppRouter.pushNamed(AppRouter.routeSignUp);
                     }, child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('New User? Register', style: TextStyle(color: Colors.blue, fontSize: 16.0),),
+                    child: Text(AppStrings.newUserRegister, style: TextStyle(color: Colors.blue, fontSize: 16.0),),
                   )
                   ),
                 ),
                 SizedBox(height: 16.0),
 
                 // Sign In Button
-                ReusableWidgets.getButton('Sign In', (){
+                ReusableWidgets.getButton(AppStrings.signIn, (){
                   _signIn(context);
                 })
               ],

@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/firebase_options.dart';
 import 'package:flutter_shop_app/src/core/core.dart';
 import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
 import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
@@ -7,7 +9,9 @@ import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:flutter_shop_app/src/network/api_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
+Future<void> main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
   /// Setup Networking Client on App Launch
   final Dio dio = Dio(
     BaseOptions(
@@ -16,6 +20,10 @@ void main() {
   );
   dio.interceptors.add(LogInterceptor());
   final apiClient = ApiClient(dio);
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   /// Register Bloc and Repository Providers Globally
   runApp(
@@ -29,14 +37,14 @@ void main() {
         BlocProvider(create: (ctx) => CartCubit(ctx.read<CartRepository>())),
         BlocProvider(create: (ctx) => AuthCubit(ctx.read<AuthRepository>())),
       ],
-      child: ProductApp()
+      child: ShopApp()
     )
   );
 }
 
-/// [ProductApp]
-class ProductApp extends StatelessWidget {
-  const ProductApp({super.key});
+/// [ShopApp]
+class ShopApp extends StatelessWidget {
+  const ShopApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -48,7 +48,6 @@ class ProductCubit extends Cubit<ProductState>{
       state.copyWith(apiStatus: ApiStatus.loading)
     );
     final ApiResponse response = await repository.fetchProducts(path);
-
     if(response.status){
       final products = (response.data) as List<Product>;
       emit(
@@ -69,7 +68,6 @@ class ProductCubit extends Cubit<ProductState>{
   Future<void> fetchProductDetails(String path) async{
     emit(state.copyWith(apiStatus: ApiStatus.loading));
     final ApiResponse response = await repository.fetchProductDetails(path);
-
     if(response.status){
       emit(state.copyWith(
         details: (response.data) as Product,

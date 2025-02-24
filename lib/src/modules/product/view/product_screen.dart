@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/core/core.dart';
 import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
 import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
@@ -12,7 +13,8 @@ import 'package:flutter_shop_app/src/utils/app_utils.dart';
 /// @AUTHOR : Sarjeet Sandhu
 /// @DATE : 11/02/25
 /// @Message : [ProductScreen]
-///
+/// Displays list of all the available products
+/// using pagination
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
 
@@ -165,7 +167,13 @@ class _ProductScreenState extends State<ProductScreen> {
             height: 360.0,
             padding: const EdgeInsets.all(8.0),
             width: MediaQuery.sizeOf(ctx).width,
-            color: Colors.white,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12.0),
+                  topRight: Radius.circular(12.0)
+              ),
+              color: Colors.white,
+            ),
             child: Column(
               children: [
                 Padding(
@@ -173,7 +181,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Filter Products',
+                      Text(AppStrings.filterProducts,
                         style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0), textAlign: TextAlign.start),
 
                       TextButton(
@@ -181,7 +189,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           if(Navigator.canPop(context)){
                             Navigator.pop(context, 'clear_filter');
                           }
-                      }, child: Text('Clear Filters'))
+                      }, child: Text(AppStrings.clearFilters))
                     ],
                   )
                 ),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/core/core.dart';
 import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
 import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
@@ -59,7 +60,7 @@ class ProductDetails extends StatelessWidget {
                     background: CachedNetworkImage(
                       imageUrl: state.productDetails?.image?? '',
                       placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Image.asset('assets/images/splash.png', fit: BoxFit.fill,),
+                      errorWidget: (context, url, error) => Image.asset(AppStrings.assetSplash, fit: BoxFit.fill,),
                       fit: BoxFit.fill,
                       width: double.infinity,
                     ),
@@ -75,7 +76,7 @@ class ProductDetails extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              'Description',
+                              AppStrings.description,
                               style: TextStyle(
                                 fontSize: 28.0,
                                 fontWeight: FontWeight.bold,
@@ -91,13 +92,13 @@ class ProductDetails extends StatelessWidget {
                             SizedBox(height: 16.0),
 
                             // Brand Section
-                            _buildDetailText('Price: \$${price.toStringAsFixed(2)}'),
+                            _buildDetailText('${AppStrings.labelPrice}: \$${price.toStringAsFixed(2)}'),
 
                             SizedBox(height: 32.0),
 
                             SizedBox(
                               width: double.infinity,
-                              child: ReusableWidgets.getButton('Add to Cart', (){
+                              child: ReusableWidgets.getButton(AppStrings.addToCart, (){
                                 _onAddToCart(context, state.productDetails!);
                               }),
                             ),
@@ -146,16 +147,15 @@ class ProductDetails extends StatelessWidget {
   /// Add to Cart
   Future<void> _onAddToCart(BuildContext context, Product product) async{
     final itemsInCart = await context.read<CartCubit>().fetchCartItems();
-
     if(itemsInCart.any((element) => element.id == product.id)){
-      AppUtils.instance.showToast('Item already in cart!');
+      AppUtils.instance.showToast(AppStrings.itemAlreadyInCart);
       return;
     }
     if(context.mounted){
       context.read<CartCubit>().addItem(
         CartItem(id: product.id?? 0, name: product.title?? '', price: product.price?? 0.0, quantity: 1, imageUrl: product.image?? '')
       );
-      AppUtils.instance.showToast('Item added to cart!');
+      AppUtils.instance.showToast(AppStrings.itemAddedToCart);
     }
   }
 }

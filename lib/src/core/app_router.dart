@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/modules/authentication/authentication_exports.dart';
 import 'package:flutter_shop_app/src/modules/cart/cart_exports.dart';
 import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
@@ -40,7 +41,7 @@ class AppRouter{
       body: Center(
         child: Column(
           children: [
-            Text('No Route Found!')
+            Text(AppStrings.noRouteFound)
           ],
         ),
       ),

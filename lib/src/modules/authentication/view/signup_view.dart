@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 import 'package:flutter_shop_app/src/utils/app_utils.dart';
 import 'package:flutter_shop_app/src/widgets/widgets_exports.dart';
 
@@ -21,7 +22,7 @@ class SignupView extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
-        title: 'Register New Account',
+        title: AppStrings.registerAccount,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -33,7 +34,7 @@ class SignupView extends StatelessWidget {
 
               Align(
                 alignment: Alignment.bottomCenter,
-                child: Image.asset('assets/images/splash.png'),
+                child: Image.asset(AppStrings.assetSplash),
               ),
 
               Column(
@@ -42,18 +43,18 @@ class SignupView extends StatelessWidget {
                   ReusableWidgets.getDescriptiveTxt(),
                   SizedBox(height: 36.0),
 
-                  ReusableWidgets.getTxtFormField('Email', 'Please enter your email', _emailController, _validateEmail),
+                  ReusableWidgets.getTxtFormField(AppStrings.email, AppStrings.emptyEmailOrNull, _emailController, _validateEmail),
                   SizedBox(height: 16.0),
 
-                  ReusableWidgets.getTxtFormField('Password', 'Please enter your password', _passwordController,
+                  ReusableWidgets.getTxtFormField(AppStrings.password, AppStrings.emptyPasswordOrNull, _passwordController,
                       _validatePassword, isPassword: true),
                   SizedBox(height: 16.0),
 
-                  ReusableWidgets.getTxtFormField('Confirm Password', 'Please confirm your password', _confirmPasswordController,
+                  ReusableWidgets.getTxtFormField(AppStrings.confirmPassword, AppStrings.validConfirmPassword, _confirmPasswordController,
                       _validatePassword, isPassword: true),
                   SizedBox(height: 36.0),
 
-                  ReusableWidgets.getButton('Sign Up', (){
+                  ReusableWidgets.getButton(AppStrings.signUp, (){
                     _onSignUp(context);
                   })
                 ],
@@ -68,9 +69,9 @@ class SignupView extends StatelessWidget {
   // Validate Email
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your email';
+      return AppStrings.emptyEmailOrNull;
     } else if (!RegExp(r'\S+@\S+\.\S+').hasMatch(value)) {
-      return 'Please enter a valid email';
+      return AppStrings.validEmail;
     }
     return null;
   }
@@ -78,9 +79,9 @@ class SignupView extends StatelessWidget {
   // Validate Password
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter your password';
+      return AppStrings.emptyPasswordOrNull;
     } else if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
+      return AppStrings.validPassword;
     }
     return null;
   }
@@ -88,9 +89,9 @@ class SignupView extends StatelessWidget {
   void _onSignUp(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       if(_passwordController.text == _confirmPasswordController.text){
-        AppUtils.instance.showToast('Signup Successful!');
+        AppUtils.instance.showToast(AppStrings.signUpSuccess);
       }else{
-        AppUtils.instance.showToast('Passwords must match!');
+        AppUtils.instance.showToast(AppStrings.passwordMatch);
       }
     }
   }

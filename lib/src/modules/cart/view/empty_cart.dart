@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shop_app/src/core/app_strings.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu
@@ -12,16 +13,16 @@ class EmptyCartView extends StatelessWidget{
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset('assets/images/splash.png'),
+        Image.asset(AppStrings.assetSplash),
         Align(
           alignment: Alignment.center,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
-                Text('No item in your cart!', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),),
+                Text(AppStrings.noCartItem, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),),
 
-                Text('Try shopping!')
+                Text(AppStrings.tryShopping)
               ],
             ),
           ),
