@@ -15,29 +15,33 @@ class Product {
 
   Product(
       {this.id,
-        this.title,
-        this.image,
-        this.price,
-        this.description,
-        this.brand,
-        this.model,
-        this.color,
-        this.category,
-        this.discount,
-        this.popular,
-        this.onSale});
+      this.title,
+      this.image,
+      this.price,
+      this.description,
+      this.brand,
+      this.model,
+      this.color,
+      this.category,
+      this.discount,
+      this.popular,
+      this.onSale});
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     image = json['image'];
-    price = json['price'] is int? (json['price'] as int).toDouble(): json['price'];
+    price = json['price'] is int
+        ? (json['price'] as int).toDouble()
+        : json['price'];
     description = json['description'];
     brand = json['brand'];
     model = json['model'];
     color = json['color'];
     category = json['category'];
-    discount = json['discount'] is int? (json['discount'] as int).toDouble(): json['discount'];
+    discount = json['discount'] is int
+        ? (json['discount'] as int).toDouble()
+        : json['discount'];
     popular = json['popular'];
     onSale = json['onSale'];
   }

@@ -6,7 +6,7 @@ import 'package:flutter_shop_app/src/core/app_strings.dart';
 /// @DATE : 13/02/25
 /// @Message : [EmptyCartView]
 ///
-class EmptyCartView extends StatelessWidget{
+class EmptyCartView extends StatelessWidget {
   const EmptyCartView({super.key});
 
   @override
@@ -20,8 +20,10 @@ class EmptyCartView extends StatelessWidget{
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
-                Text(AppStrings.noCartItem, style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),),
-
+                Text(
+                  AppStrings.noCartItem,
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w600),
+                ),
                 Text(AppStrings.tryShopping)
               ],
             ),

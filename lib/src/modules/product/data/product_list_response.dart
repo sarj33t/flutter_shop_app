@@ -33,6 +33,3 @@ class ProductListResponse {
     return data;
   }
 }
-
-
-

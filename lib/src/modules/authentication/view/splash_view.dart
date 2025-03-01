@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shop_app/src/core/app_router.dart';
 import 'package:flutter_shop_app/src/core/app_strings.dart';
+import 'package:flutter_shop_app/src/services/product_service.dart';
 
 ///
 /// @AUTHOR : Sarjeet Sandhu
@@ -15,7 +16,6 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-
   @override
   void initState() {
     _replaceView();
@@ -29,16 +29,14 @@ class _SplashViewState extends State<SplashView> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(AppStrings.assetSplash)
-          ],
+          children: [Image.asset(AppStrings.assetSplash)],
         ),
       ),
     );
   }
 
-  void _replaceView() async{
-    Future.delayed(Duration(seconds: 2) , (){
+  void _replaceView() async {
+    Future.delayed(Duration(seconds: 2), () {
       AppRouter.pushReplacementNamed(AppRouter.routeLogin);
     });
   }

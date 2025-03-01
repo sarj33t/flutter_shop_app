@@ -1,3 +1,4 @@
+import 'package:flutter_shop_app/src/core/api_constants.dart';
 import 'package:flutter_shop_app/src/models/api_response.dart';
 import 'package:flutter_shop_app/src/modules/product/product_exports.dart';
 import 'package:flutter_shop_app/src/network/api_client.dart';
@@ -7,85 +8,80 @@ import 'package:flutter_shop_app/src/network/api_client.dart';
 /// @DATE : 11/02/25
 /// @Message : [ProductRepository]
 ///
-class ProductRepository{
+class ProductRepository {
   ProductRepository(this.apiClient);
   final ApiClient apiClient;
 
   /// Fetch Products
-  Future<ApiResponse> fetchProducts(String path) async{
-    try{
+  Future<ApiResponse> fetchProducts(String path) async {
+    try {
       final response = await apiClient.getApi(path);
-      if(response.statusCode != null && response.statusCode == 200){
-        if(response.data != null){
-          final List<Product> products = ProductListResponse.fromJson(response.data).products?? [];
+      if (response.statusCode != null && response.statusCode == 200) {
+        if (response.data != null) {
+          final List<Product> products =
+              ProductListResponse.fromJson(response.data).products ?? [];
           return ApiResponse(
             status: true,
-            message: 'success',
+            message: ApiConstants.success,
             data: products,
           );
-        }else{
-          return ApiResponse(status: true, message: 'success', data: null);
+        } else {
+          return ApiResponse(
+              status: true, message: ApiConstants.success, data: null);
         }
-      }else{
-        return ApiResponse(status: false, message: 'failed', data: null);
+      } else {
+        return ApiResponse(
+            status: false, message: ApiConstants.failed, data: null);
       }
-    }catch(ex){
-      return ApiResponse(
-        message: ex.toString(),
-        status: false, data: null
-      );
+    } catch (ex) {
+      return ApiResponse(message: ex.toString(), status: false, data: null);
     }
   }
 
   /// Fetch Product Categories
-  Future<ApiResponse> fetchCategories(String path) async{
-    try{
+  Future<ApiResponse> fetchCategories(String path) async {
+    try {
       final response = await apiClient.getApi(path);
-      if(response.statusCode != null && response.statusCode == 200){
-        if(response.data != null){
-          final List<String> categories = CategoryListResponse.fromJson(response.data).categories?? <String>[];
+      if (response.statusCode != null && response.statusCode == 200) {
+        if (response.data != null) {
+          final List<String> categories =
+              CategoryListResponse.fromJson(response.data).categories ??
+                  <String>[];
           return ApiResponse(
-            status: true,
-            message: 'success',
-            data: categories
-          );
-        }else{
-          return ApiResponse(status: true, message: 'success', data: null);
+              status: true, message: ApiConstants.success, data: categories);
+        } else {
+          return ApiResponse(
+              status: true, message: ApiConstants.success, data: null);
         }
-      }else{
-        return ApiResponse(status: false, message: 'failed', data: null);
+      } else {
+        return ApiResponse(
+            status: false, message: ApiConstants.failed, data: null);
       }
-    }catch(ex){
-      return ApiResponse(
-        message: ex.toString(),
-        status: false, data: null
-      );
+    } catch (ex) {
+      return ApiResponse(message: ex.toString(), status: false, data: null);
     }
   }
 
   /// Fetch Product Details
-  Future<ApiResponse> fetchProductDetails(String path) async{
-    try{
+  Future<ApiResponse> fetchProductDetails(String path) async {
+    try {
       final response = await apiClient.getApi(path);
-      if(response.statusCode != null && response.statusCode == 200){
-        if(response.data != null){
-          final Product? details = ProductDetailsResponse.fromJson(response.data).product;
+      if (response.statusCode != null && response.statusCode == 200) {
+        if (response.data != null) {
+          final Product? details =
+              ProductDetailsResponse.fromJson(response.data).product;
           return ApiResponse(
-              status: true,
-              message: 'success',
-              data: details
-          );
-        }else{
-          return ApiResponse(status: true, message: 'success', data: null);
+              status: true, message: ApiConstants.success, data: details);
+        } else {
+          return ApiResponse(
+              status: true, message: ApiConstants.success, data: null);
         }
-      }else{
-        return ApiResponse(status: false, message: 'failed', data: null);
+      } else {
+        return ApiResponse(
+            status: false, message: ApiConstants.failed, data: null);
       }
-    }catch(ex){
-      return ApiResponse(
-          message: ex.toString(),
-          status: false, data: null
-      );
+    } catch (ex) {
+      return ApiResponse(message: ex.toString(), status: false, data: null);
     }
   }
 }

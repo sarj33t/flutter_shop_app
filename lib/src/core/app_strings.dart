@@ -3,7 +3,7 @@
 /// @DATE : 24/02/25
 /// @Message : [AppStrings]
 ///
-class AppStrings{
+class AppStrings {
   static const String appTitle = 'Flutter Shop App';
   static const String tagline = 'Buy Smart, Sell Easy';
   static const String signIn = 'Sign In';
@@ -17,7 +17,8 @@ class AppStrings{
   static const String emptyPasswordOrNull = 'Please enter your password';
   static const String confirmPassword = 'Confirm Password';
   static const String validEmail = 'Please enter a valid email';
-  static const String validPassword = 'Password must be at least 6 characters long';
+  static const String validPassword =
+      'Password must be at least 6 characters long';
   static const String validConfirmPassword = 'Please confirm your password';
   static const String registerAccount = 'Register New Account';
   static const String signUpSuccess = 'Signup Successful!';

@@ -12,7 +12,8 @@ class SignupView extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   SignupView({super.key});
 
@@ -31,30 +32,36 @@ class SignupView extends StatelessWidget {
           child: Stack(
             fit: StackFit.expand,
             children: <Widget>[
-
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Image.asset(AppStrings.assetSplash),
               ),
-
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ReusableWidgets.getDescriptiveTxt(),
                   SizedBox(height: 36.0),
-
-                  ReusableWidgets.getTxtFormField(AppStrings.email, AppStrings.emptyEmailOrNull, _emailController, _validateEmail),
+                  ReusableWidgets.getTxtFormField(
+                      AppStrings.email,
+                      AppStrings.emptyEmailOrNull,
+                      _emailController,
+                      _validateEmail),
                   SizedBox(height: 16.0),
-
-                  ReusableWidgets.getTxtFormField(AppStrings.password, AppStrings.emptyPasswordOrNull, _passwordController,
-                      _validatePassword, isPassword: true),
+                  ReusableWidgets.getTxtFormField(
+                      AppStrings.password,
+                      AppStrings.emptyPasswordOrNull,
+                      _passwordController,
+                      _validatePassword,
+                      isPassword: true),
                   SizedBox(height: 16.0),
-
-                  ReusableWidgets.getTxtFormField(AppStrings.confirmPassword, AppStrings.validConfirmPassword, _confirmPasswordController,
-                      _validatePassword, isPassword: true),
+                  ReusableWidgets.getTxtFormField(
+                      AppStrings.confirmPassword,
+                      AppStrings.validConfirmPassword,
+                      _confirmPasswordController,
+                      _validatePassword,
+                      isPassword: true),
                   SizedBox(height: 36.0),
-
-                  ReusableWidgets.getButton(AppStrings.signUp, (){
+                  ReusableWidgets.getButton(AppStrings.signUp, () {
                     _onSignUp(context);
                   })
                 ],
@@ -88,9 +95,9 @@ class SignupView extends StatelessWidget {
 
   void _onSignUp(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      if(_passwordController.text == _confirmPasswordController.text){
+      if (_passwordController.text == _confirmPasswordController.text) {
         AppUtils.instance.showToast(AppStrings.signUpSuccess);
-      }else{
+      } else {
         AppUtils.instance.showToast(AppStrings.passwordMatch);
       }
     }

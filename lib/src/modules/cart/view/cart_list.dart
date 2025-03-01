@@ -18,9 +18,7 @@ class CartList extends StatelessWidget {
     return ListView.builder(
       itemCount: cartItems.length,
       itemBuilder: (context, index) {
-        return CartItemCard(
-            cartItem: cartItems[index]
-        );
+        return CartItemCard(cartItem: cartItems[index]);
       },
     );
   }
@@ -44,9 +42,13 @@ class CartItemCard extends StatelessWidget {
           children: [
             // Product Image
             CachedNetworkImage(
-              imageUrl: cartItem.imageUrl?? '',
-              placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Image.asset(AppStrings.assetSplash, fit: BoxFit.fill,),
+              imageUrl: cartItem.imageUrl ?? '',
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => Image.asset(
+                AppStrings.assetSplash,
+                fit: BoxFit.fill,
+              ),
               fit: BoxFit.fill,
               width: 80.0,
               height: 80.0,
@@ -58,7 +60,6 @@ class CartItemCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Text(
                     cartItem.name,
                     maxLines: 2,
@@ -69,19 +70,18 @@ class CartItemCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8.0),
-
                   _labelTxt('\$${cartItem.price.toStringAsFixed(2)} each'),
                   SizedBox(height: 8.0),
-
                   BlocBuilder<CartCubit, CartState>(
                     bloc: context.read<CartCubit>(),
-                    buildWhen: (previous, current) => previous.cartItems != current.cartItems,
+                    buildWhen: (previous, current) =>
+                        previous.cartItems != current.cartItems,
                     builder: (BuildContext context, CartState state) {
-                      return _labelTxt('${AppStrings.labelQuantity}: ${cartItem.quantity}');
+                      return _labelTxt(
+                          '${AppStrings.labelQuantity}: ${cartItem.quantity}');
                     },
                   ),
                   SizedBox(height: 8.0),
-
                   _quantityRow(context),
                   SizedBox(height: 8.0),
                 ],
@@ -120,24 +120,33 @@ class CartItemCard extends StatelessWidget {
         GestureDetector(
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0, right: 8.0),
-            child: Icon(Icons.add_circle_outline, size: 24.0, color: Colors.green,),
+            child: Icon(
+              Icons.add_circle_outline,
+              size: 24.0,
+              color: Colors.green,
+            ),
           ),
-          onTap: (){
-            cartItem.quantity = cartItem.quantity +=1;
+          onTap: () {
+            cartItem.quantity = cartItem.quantity += 1;
             context.read<CartCubit>().updateItem(cartItem);
             context.read<CartCubit>().calculateTotalPrice();
           },
         ),
-        const SizedBox(width: 12.0,),
-
+        const SizedBox(
+          width: 12.0,
+        ),
         GestureDetector(
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0, right: 8.0),
-            child: Icon(Icons.remove_circle_outline, size: 24.0, color: Colors.red,),
+            child: Icon(
+              Icons.remove_circle_outline,
+              size: 24.0,
+              color: Colors.red,
+            ),
           ),
-          onTap: (){
-            if(cartItem.quantity > 1){
-              cartItem.quantity = cartItem.quantity -=1;
+          onTap: () {
+            if (cartItem.quantity > 1) {
+              cartItem.quantity = cartItem.quantity -= 1;
               context.read<CartCubit>().updateItem(cartItem);
               context.read<CartCubit>().calculateTotalPrice();
             }

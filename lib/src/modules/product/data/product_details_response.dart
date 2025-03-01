@@ -16,7 +16,7 @@ class ProductDetailsResponse {
     status = json['status'];
     message = json['message'];
     product =
-    json['product'] != null ? Product.fromJson(json['product']) : null;
+        json['product'] != null ? Product.fromJson(json['product']) : null;
   }
 
   Map<String, dynamic> toJson() {

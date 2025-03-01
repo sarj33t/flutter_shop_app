@@ -15,12 +15,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// @Message : [ProductDetails]
 ///
 class ProductDetails extends StatelessWidget {
-
-  const ProductDetails({
-    super.key,
-    required this.productId,
-    required this.productName
-  });
+  const ProductDetails(
+      {super.key, required this.productId, required this.productName});
 
   final int productId;
   final String productName;
@@ -30,21 +26,22 @@ class ProductDetails extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocBuilder<ProductCubit, ProductState>(
-        bloc: context.read<ProductCubit>()..fetchProductDetails('${ApiConstants.productsPath}/$productId'),
-        builder: (BuildContext context, ProductState state){
-          if(state.status == ApiStatus.loading){
+        bloc: context.read<ProductCubit>()
+          ..fetchProductDetails('${ApiConstants.productsPath}/$productId'),
+        builder: (BuildContext context, ProductState state) {
+          if (state.status == ApiStatus.loading) {
             return Center(
               child: CupertinoActivityIndicator(),
             );
           }
-          if(state.status == ApiStatus.success && state.productDetails != null){
-            final String pName = state.productDetails?.title?? '';
-            final double price = state.productDetails?.price?? 0.0;
-            final String pDetails = state.productDetails?.description?? '';
+          if (state.status == ApiStatus.success &&
+              state.productDetails != null) {
+            final String pName = state.productDetails?.title ?? '';
+            final double price = state.productDetails?.price ?? 0.0;
+            final String pDetails = state.productDetails?.description ?? '';
 
             return CustomScrollView(
               slivers: [
-
                 SliverAppBar(
                   expandedHeight: 300.0,
                   floating: false,
@@ -52,21 +49,29 @@ class ProductDetails extends StatelessWidget {
                   shadowColor: Colors.black,
                   elevation: 5.0,
                   flexibleSpace: FlexibleSpaceBar(
-                    titlePadding: EdgeInsets.only(left: 50.0, right: 10.0, bottom: 10.0),
+                    titlePadding:
+                        EdgeInsets.only(left: 50.0, right: 10.0, bottom: 10.0),
                     title: Padding(
                       padding: const EdgeInsets.all(5.0),
-                      child: Text(pName.capitalizeEachWord(), maxLines: 1, style: TextStyle(fontSize: 18.0),),
+                      child: Text(
+                        pName.capitalizeEachWord(),
+                        maxLines: 1,
+                        style: TextStyle(fontSize: 18.0),
+                      ),
                     ),
                     background: CachedNetworkImage(
-                      imageUrl: state.productDetails?.image?? '',
-                      placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) => Image.asset(AppStrings.assetSplash, fit: BoxFit.fill,),
+                      imageUrl: state.productDetails?.image ?? '',
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Image.asset(
+                        AppStrings.assetSplash,
+                        fit: BoxFit.fill,
+                      ),
                       fit: BoxFit.fill,
                       width: double.infinity,
                     ),
                   ),
                 ),
-
                 SliverList(
                   delegate: SliverChildListDelegate(
                     [
@@ -78,27 +83,29 @@ class ProductDetails extends StatelessWidget {
                             Text(
                               AppStrings.description,
                               style: TextStyle(
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black54
-                              ),
+                                  fontSize: 28.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black54),
                             ),
                             SizedBox(height: 8.0),
 
                             Text(
                               pDetails,
-                              style: TextStyle(fontSize: 14.0, color: Colors.black45),
+                              style: TextStyle(
+                                  fontSize: 14.0, color: Colors.black45),
                             ),
                             SizedBox(height: 16.0),
 
                             // Brand Section
-                            _buildDetailText('${AppStrings.labelPrice}: \$${price.toStringAsFixed(2)}'),
+                            _buildDetailText(
+                                '${AppStrings.labelPrice}: \$${price.toStringAsFixed(2)}'),
 
                             SizedBox(height: 32.0),
 
                             SizedBox(
                               width: double.infinity,
-                              child: ReusableWidgets.getButton(AppStrings.addToCart, (){
+                              child: ReusableWidgets.getButton(
+                                  AppStrings.addToCart, () {
                                 _onAddToCart(context, state.productDetails!);
                               }),
                             ),
@@ -145,16 +152,19 @@ class ProductDetails extends StatelessWidget {
   }
 
   /// Add to Cart
-  Future<void> _onAddToCart(BuildContext context, Product product) async{
+  Future<void> _onAddToCart(BuildContext context, Product product) async {
     final itemsInCart = await context.read<CartCubit>().fetchCartItems();
-    if(itemsInCart.any((element) => element.id == product.id)){
+    if (itemsInCart.any((element) => element.id == product.id)) {
       AppUtils.instance.showToast(AppStrings.itemAlreadyInCart);
       return;
     }
-    if(context.mounted){
-      context.read<CartCubit>().addItem(
-        CartItem(id: product.id?? 0, name: product.title?? '', price: product.price?? 0.0, quantity: 1, imageUrl: product.image?? '')
-      );
+    if (context.mounted) {
+      context.read<CartCubit>().addItem(CartItem(
+          id: product.id ?? 0,
+          name: product.title ?? '',
+          price: product.price ?? 0.0,
+          quantity: 1,
+          imageUrl: product.image ?? ''));
       AppUtils.instance.showToast(AppStrings.itemAddedToCart);
     }
   }

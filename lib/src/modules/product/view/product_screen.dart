@@ -38,116 +38,120 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.blue,
-        centerTitle: false,
-        title: Text('Products', style: TextStyle(color: Colors.white),),
-        actions: [
-          BlocBuilder<CartCubit, CartState>(
-            buildWhen: (p, c) => p.cartItems != c.cartItems,
-            builder: (context, state){
-              return GestureDetector(
-                onTap: (){
-                  AppRouter.pushNamed(AppRouter.routeCartScreen);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: badges.Badge(
-                    showBadge: state.cartItems.isNotEmpty,
-                    badgeContent: Text('${state.cartItems.length}',
-                      style: TextStyle(color: Colors.white),),
-                    badgeStyle: badges.BadgeStyle(
-                        badgeColor: Colors.black
+        appBar: AppBar(
+          backgroundColor: Colors.blue,
+          centerTitle: false,
+          title: Text(
+            'Products',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            BlocBuilder<CartCubit, CartState>(
+              buildWhen: (p, c) => p.cartItems != c.cartItems,
+              builder: (context, state) {
+                return GestureDetector(
+                  onTap: () {
+                    AppRouter.pushNamed(AppRouter.routeCartScreen);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: badges.Badge(
+                      showBadge: state.cartItems.isNotEmpty,
+                      badgeContent: Text(
+                        '${state.cartItems.length}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      badgeStyle: badges.BadgeStyle(badgeColor: Colors.black),
+                      position: badges.BadgePosition.topEnd(top: -16, end: -12),
+                      child: Icon(
+                        Icons.shopping_cart,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      onTap: () {},
                     ),
-                    position: badges.BadgePosition.topEnd(top: -16, end: -12),
-                    child: Icon(Icons.shopping_cart, color: Colors.white, size: 30.0,),
-                    onTap: (){
-
-                    },
                   ),
+                );
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 16.0, right: 12.0),
+              child: GestureDetector(
+                onTap: () {
+                  context.read<AuthCubit>().logout();
+                },
+                child: Icon(
+                  Icons.logout,
+                  color: Colors.white,
                 ),
+              ),
+            )
+          ],
+        ),
+        backgroundColor: Colors.white,
+        body: MultiBlocListener(
+          listeners: [
+            // Listen for changes in ProductCubit
+            BlocListener<ProductCubit, ProductState>(
+              listener: (context, state) {
+                if (state.error.isNotEmpty) {
+                  AppUtils.instance.showToast(state.error);
+                }
+
+                if (state.status == ApiStatus.success &&
+                    state.products.isNotEmpty) {
+                  if (state.categories.isNotEmpty) {
+                    categories.clear();
+                    categories.addAll(state.categories);
+                  }
+                  productList.addAll(state.products);
+                }
+              },
+            ),
+
+            // Listen for changes in AuthCubit (for logout)
+            BlocListener<AuthCubit, AuthState>(
+              listener: (context, state) {
+                if (!state.isAuthenticated) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    AppRouter.pushReplacementNamed(AppRouter.routeLogin);
+                  });
+                }
+              },
+            ),
+          ],
+          child: BlocBuilder<ProductCubit, ProductState>(
+            builder: (BuildContext context, ProductState state) {
+              return Stack(
+                children: [
+                  Column(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          if (categories.isNotEmpty) {
+                            showBottomSheetCategory();
+                          }
+                        },
+                        child: Text('Filter Products By Category'),
+                      ),
+                      Expanded(
+                        child: ProductList(
+                          products: productList,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Visibility(
+                    visible: state.status == ApiStatus.loading,
+                    child: Align(
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  ),
+                ],
               );
             },
           ),
-
-          Padding(
-            padding: const EdgeInsets.only(top: 16.0, right: 12.0),
-            child: GestureDetector(
-              onTap: (){
-                context.read<AuthCubit>().logout();
-              },
-              child: Icon(
-                Icons.logout,
-                color: Colors.white,
-              ),
-            ),
-          )
-        ],
-      ),
-      backgroundColor: Colors.white,
-      body: MultiBlocListener(
-        listeners: [
-          // Listen for changes in ProductCubit
-          BlocListener<ProductCubit, ProductState>(
-            listener: (context, state) {
-              if (state.error.isNotEmpty) {
-                AppUtils.instance.showToast(state.error);
-              }
-
-              if (state.status == ApiStatus.success && state.products.isNotEmpty) {
-                if (state.categories.isNotEmpty) {
-                  categories.clear();
-                  categories.addAll(state.categories);
-                }
-                productList.addAll(state.products);
-              }
-            },
-          ),
-
-          // Listen for changes in AuthCubit (for logout)
-          BlocListener<AuthCubit, AuthState>(
-            listener: (context, state) {
-              if (!state.isAuthenticated) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  AppRouter.pushReplacementNamed(AppRouter.routeLogin);
-                });
-              }
-            },
-          ),
-        ],
-        child: BlocBuilder<ProductCubit, ProductState>(
-          builder: (BuildContext context, ProductState state) {
-            return Stack(
-              children: [
-                Column(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        if (categories.isNotEmpty) {
-                          showBottomSheetCategory();
-                        }
-                      },
-                      child: Text('Filter Products By Category'),
-                    ),
-                    Expanded(
-                      child: ProductList(
-                        products: productList,
-                      ),
-                    ),
-                  ],
-                ),
-                Visibility(
-                  visible: state.status == ApiStatus.loading,
-                  child: Align(
-                    child: CupertinoActivityIndicator(),
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-      )
-    );
+        ));
   }
 
   /// Fetch Initial Data
@@ -159,10 +163,10 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   /// Show Bottom Sheet for Product Category
-  void showBottomSheetCategory() async{
+  void showBottomSheetCategory() async {
     final String? result = await showModalBottomSheet(
         context: context,
-        builder: (ctx){
+        builder: (ctx) {
           return Container(
             height: 360.0,
             padding: const EdgeInsets.all(8.0),
@@ -170,46 +174,49 @@ class _ProductScreenState extends State<ProductScreen> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12.0),
-                  topRight: Radius.circular(12.0)
-              ),
+                  topRight: Radius.circular(12.0)),
               color: Colors.white,
             ),
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(AppStrings.filterProducts,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0), textAlign: TextAlign.start),
-
-                      TextButton(
-                        onPressed: (){
-                          if(Navigator.canPop(context)){
-                            Navigator.pop(context, 'clear_filter');
-                          }
-                      }, child: Text(AppStrings.clearFilters))
-                    ],
-                  )
-                ),
-
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(AppStrings.filterProducts,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18.0),
+                            textAlign: TextAlign.start),
+                        TextButton(
+                            onPressed: () {
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context, 'clear_filter');
+                              }
+                            },
+                            child: Text(AppStrings.clearFilters))
+                      ],
+                    )),
                 Expanded(
                   child: ListView.separated(
-                    separatorBuilder: (BuildContext context, int index){
+                    separatorBuilder: (BuildContext context, int index) {
                       return Divider();
                     },
                     itemCount: categories.length,
                     itemBuilder: (BuildContext context, int index) {
                       final String category = categories[index];
                       return GestureDetector(
-                        onTap: (){
-                          if(Navigator.canPop(context)){
+                        onTap: () {
+                          if (Navigator.canPop(context)) {
                             Navigator.pop(context, category);
                           }
                         },
                         child: ListTile(
-                          title: Text(category.capitalizeEachWord(), style: TextStyle(fontSize: 14.0), maxLines: 1,),
+                          title: Text(
+                            category.capitalizeEachWord(),
+                            style: TextStyle(fontSize: 14.0),
+                            maxLines: 1,
+                          ),
                         ),
                       );
                     },
@@ -218,19 +225,17 @@ class _ProductScreenState extends State<ProductScreen> {
               ],
             ),
           );
-        }
-    );
-    if(result != null){
-      if(result == 'clear_filter'){
+        });
+    if (result != null) {
+      if (result == 'clear_filter') {
         productList.clear();
         categories.clear();
         getInitialData();
-      }
-      else{
+      } else {
         productList.clear();
         String path = ApiConstants.productsPath;
         String queryStr = 'category?type=$result';
-        if(mounted){
+        if (mounted) {
           context.read<ProductCubit>().fetchProductsByCategory(path + queryStr);
         }
       }

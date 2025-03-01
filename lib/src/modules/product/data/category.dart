@@ -24,4 +24,3 @@ class CategoryListResponse {
     return data;
   }
 }
-

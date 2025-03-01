@@ -18,14 +18,20 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       padding: const EdgeInsets.all(5.0),
-      controller: scrollController..addListener((){
-        bool hasData = context.read<ProductCubit>().state.hasMoreData;
-        if(scrollController.offset == scrollController.position.maxScrollExtent && hasData){
-          int page = context.read<ProductCubit>().state.page;
-          context.read<ProductCubit>().fetchProducts('products?page=$page&limit=20');
-        }
-      }),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 8.0, crossAxisSpacing: 8.0),
+      controller: scrollController
+        ..addListener(() {
+          bool hasData = context.read<ProductCubit>().state.hasMoreData;
+          if (scrollController.offset ==
+                  scrollController.position.maxScrollExtent &&
+              hasData) {
+            int page = context.read<ProductCubit>().state.page;
+            context
+                .read<ProductCubit>()
+                .fetchProducts('products?page=$page&limit=20');
+          }
+        }),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, mainAxisSpacing: 8.0, crossAxisSpacing: 8.0),
       itemCount: products.length,
       itemBuilder: (BuildContext context, int index) {
         final Product product = products[index];
@@ -44,19 +50,22 @@ class ProductList extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(AppRouter.navigatorKey.currentContext!, AppRouter.routeProductDetails,
-          arguments: {
-            "product_id": product.id?? 0,
-            "product_name": product.title?? ''
+          Navigator.pushNamed(AppRouter.navigatorKey.currentContext!,
+              AppRouter.routeProductDetails, arguments: {
+            "product_id": product.id ?? 0,
+            "product_name": product.title ?? ''
           });
         },
         child: Stack(
           children: [
             // Product Image
             CachedNetworkImage(
-              imageUrl: product.image?.isNotEmpty ?? false ? product.image! : '',
-              placeholder: (context, url) => Center(child: CircularProgressIndicator()),
-              errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red),
+              imageUrl:
+                  product.image?.isNotEmpty ?? false ? product.image! : '',
+              placeholder: (context, url) =>
+                  Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) =>
+                  Icon(Icons.error, color: Colors.red),
               fit: BoxFit.cover,
               width: double.infinity,
               height: 200,

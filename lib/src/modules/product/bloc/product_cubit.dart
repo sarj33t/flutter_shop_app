@@ -7,75 +7,67 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// @DATE : 11/02/25
 /// @Message : [ProductCubit]
 ///
-class ProductCubit extends Cubit<ProductState>{
-  ProductCubit(this.repository): super(ProductState());
+class ProductCubit extends Cubit<ProductState> {
+  ProductCubit(this.repository) : super(ProductState());
   final ProductRepository repository;
 
   /// Fetch Products
-  Future<void> fetchProducts(String path) async{
-    emit(
-      state.copyWith(apiStatus: ApiStatus.loading)
-    );
+  Future<void> fetchProducts(String path) async {
+    emit(state.copyWith(apiStatus: ApiStatus.loading));
     final ApiResponse response = await repository.fetchProducts(path);
     int lastIndex = state.page;
 
-    if(response.status){
+    if (response.status) {
       final products = (response.data) as List<Product>;
-      emit(
-        state.copyWith(
+      emit(state.copyWith(
           apiStatus: ApiStatus.success,
           productList: products,
           pageVal: lastIndex + 1,
-          hasMore: products.length >= 20
-        )
-      );
-    }
-    else{
-      emit(state.copyWith(apiStatus: ApiStatus.failed, errorMsg: response.message,));
+          hasMore: products.length >= 20));
+    } else {
+      emit(state.copyWith(
+        apiStatus: ApiStatus.failed,
+        errorMsg: response.message,
+      ));
     }
   }
 
-  Future<void> fetchCategories(String path) async{
+  Future<void> fetchCategories(String path) async {
     final ApiResponse response = await repository.fetchCategories(path);
-    emit(state.copyWith(
-      categoryList: (response.data) as List<String>
-    ));
+    emit(state.copyWith(categoryList: (response.data) as List<String>));
   }
 
   /// Fetch Products by Category
-  Future<void> fetchProductsByCategory(String path) async{
-    emit(
-      state.copyWith(apiStatus: ApiStatus.loading)
-    );
+  Future<void> fetchProductsByCategory(String path) async {
+    emit(state.copyWith(apiStatus: ApiStatus.loading));
     final ApiResponse response = await repository.fetchProducts(path);
-    if(response.status){
+    if (response.status) {
       final products = (response.data) as List<Product>;
-      emit(
-        state.copyWith(
+      emit(state.copyWith(
           apiStatus: ApiStatus.success,
           productList: products,
           hasMore: false,
-          pageVal: 1
-        )
-      );
-    }
-    else{
-      emit(state.copyWith(apiStatus: ApiStatus.failed, errorMsg: response.message,));
+          pageVal: 1));
+    } else {
+      emit(state.copyWith(
+        apiStatus: ApiStatus.failed,
+        errorMsg: response.message,
+      ));
     }
   }
 
   /// Fetch Product Details
-  Future<void> fetchProductDetails(String path) async{
+  Future<void> fetchProductDetails(String path) async {
     emit(state.copyWith(apiStatus: ApiStatus.loading));
     final ApiResponse response = await repository.fetchProductDetails(path);
-    if(response.status){
+    if (response.status) {
       emit(state.copyWith(
-        details: (response.data) as Product,
-        apiStatus: ApiStatus.success
+          details: (response.data) as Product, apiStatus: ApiStatus.success));
+    } else {
+      emit(state.copyWith(
+        apiStatus: ApiStatus.failed,
+        errorMsg: response.message,
       ));
-    }
-    else{
-      emit(state.copyWith(apiStatus: ApiStatus.failed, errorMsg: response.message,));
     }
   }
 }

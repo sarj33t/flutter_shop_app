@@ -49,45 +49,43 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(
-        title: AppStrings.signIn
-      ),
-      body: BlocBuilder<AuthCubit, AuthState>(
-        bloc: context.read<AuthCubit>(),
-        builder: (BuildContext context, AuthState state) {
-          if(state.apiStatus == ApiStatus.idle){
-            return loginForm(context);
-          }
-          if(state.apiStatus == ApiStatus.loading){
-            return Stack(
-              fit: StackFit.expand,
-              children: [
-                loginForm(context),
-                Align(
-                  alignment: Alignment.center,
-                  child: CupertinoActivityIndicator(),
-                ),
-              ],
-            );
-          }
-          if(state.apiStatus == ApiStatus.success && state.isAuthenticated){
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              AppRouter.pushReplacementNamed(AppRouter.routeProductList);
-            });
-          }
-          if(state.apiStatus == ApiStatus.success && !state.isAuthenticated){
-            return loginForm(context);
-          }
-          return SizedBox();
-        },
-      )
-    );
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.white,
+        appBar: CustomAppBar(title: AppStrings.signIn),
+        body: BlocBuilder<AuthCubit, AuthState>(
+          bloc: context.read<AuthCubit>(),
+          builder: (BuildContext context, AuthState state) {
+            if (state.apiStatus == ApiStatus.idle) {
+              return loginForm(context);
+            }
+            if (state.apiStatus == ApiStatus.loading) {
+              return Stack(
+                fit: StackFit.expand,
+                children: [
+                  loginForm(context),
+                  Align(
+                    alignment: Alignment.center,
+                    child: CupertinoActivityIndicator(),
+                  ),
+                ],
+              );
+            }
+            if (state.apiStatus == ApiStatus.success && state.isAuthenticated) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                AppRouter.pushReplacementNamed(AppRouter.routeProductList);
+              });
+            }
+            if (state.apiStatus == ApiStatus.success &&
+                !state.isAuthenticated) {
+              return loginForm(context);
+            }
+            return SizedBox();
+          },
+        ));
   }
 
   // Login Form
-  Widget loginForm(BuildContext context){
+  Widget loginForm(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Form(
@@ -95,42 +93,47 @@ class LoginView extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-
             Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(AppStrings.assetSplash),
             ),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-
                 ReusableWidgets.getDescriptiveTxt(),
                 SizedBox(height: 36.0),
 
                 // Email Field
-                ReusableWidgets.getTxtFormField(AppStrings.email, AppStrings.enterEmail, _emailController, _validateEmail),
+                ReusableWidgets.getTxtFormField(AppStrings.email,
+                    AppStrings.enterEmail, _emailController, _validateEmail),
                 SizedBox(height: 16.0),
 
                 // Password Field
-                ReusableWidgets.getTxtFormField(AppStrings.password, AppStrings.enterPassword, _passwordController,
-                    _validatePassword, isPassword: true),
+                ReusableWidgets.getTxtFormField(
+                    AppStrings.password,
+                    AppStrings.enterPassword,
+                    _passwordController,
+                    _validatePassword,
+                    isPassword: true),
                 SizedBox(height: 12.0),
 
                 Center(
                   child: GestureDetector(
-                    onTap: (){
-                      AppRouter.pushNamed(AppRouter.routeSignUp);
-                    }, child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(AppStrings.newUserRegister, style: TextStyle(color: Colors.blue, fontSize: 16.0),),
-                  )
-                  ),
+                      onTap: () {
+                        AppRouter.pushNamed(AppRouter.routeSignUp);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          AppStrings.newUserRegister,
+                          style: TextStyle(color: Colors.blue, fontSize: 16.0),
+                        ),
+                      )),
                 ),
                 SizedBox(height: 16.0),
 
                 // Sign In Button
-                ReusableWidgets.getButton(AppStrings.signIn, (){
+                ReusableWidgets.getButton(AppStrings.signIn, () {
                   _signIn(context);
                 })
               ],

@@ -7,10 +7,10 @@ import 'package:flutter_shop_app/src/utils/hex_color.dart';
 /// @DATE : 12/02/25
 /// @Message : [ReusableWidgets]
 ///
-class ReusableWidgets{
-
-  static Widget getTxtFormField(String labelTxt, String hintTxt, TextEditingController controller,
-    String? Function(String?)? validator, {bool isPassword = false}){
+class ReusableWidgets {
+  static Widget getTxtFormField(String labelTxt, String hintTxt,
+      TextEditingController controller, String? Function(String?)? validator,
+      {bool isPassword = false}) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
@@ -18,14 +18,14 @@ class ReusableWidgets{
         hintText: hintTxt,
         border: OutlineInputBorder(),
       ),
-      keyboardType: isPassword? null: TextInputType.emailAddress,
-      validator: (v)=> validator?.call(v),
+      keyboardType: isPassword ? null : TextInputType.emailAddress,
+      validator: (v) => validator?.call(v),
       obscureText: isPassword,
     );
   }
 
   /// App Button
-  static Widget getButton(String labelTxt, void Function()? onPressed){
+  static Widget getButton(String labelTxt, void Function()? onPressed) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30), // Round the corners
@@ -46,17 +46,21 @@ class ReusableWidgets{
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.transparent, // Make button background transparent
+          backgroundColor:
+              Colors.transparent, // Make button background transparent
           shadowColor: Colors.transparent, // Remove shadow
           padding: EdgeInsets.symmetric(horizontal: 46.0, vertical: 8.0),
         ),
-        child: Text(labelTxt, style: TextStyle(fontSize: 18.0, color: Colors.white),),
+        child: Text(
+          labelTxt,
+          style: TextStyle(fontSize: 18.0, color: Colors.white),
+        ),
       ),
     );
   }
 
   /// Descriptive Txt
-  static Widget getDescriptiveTxt(){
+  static Widget getDescriptiveTxt() {
     return Text(
       AppStrings.tagline,
       textAlign: TextAlign.center,

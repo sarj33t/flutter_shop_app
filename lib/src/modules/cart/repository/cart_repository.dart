@@ -1,10 +1,9 @@
 import 'package:flutter_shop_app/src/modules/cart/data/cart_item.dart';
 
 /// [CartRepository]
-class CartRepository{
-
+class CartRepository {
   /// Add Item to Cart
-  List<CartItem>  addItem(CartItem item, List<CartItem> items) {
+  List<CartItem> addItem(CartItem item, List<CartItem> items) {
     final List<CartItem> itemList = [...items];
     itemList.add(item);
     return itemList;
@@ -13,7 +12,7 @@ class CartRepository{
   /// Remove Item from Cart
   List<CartItem> removeItem(int productId, List<CartItem> items) {
     final List<CartItem> tempList = [...items];
-    if(tempList.any((element) => element.id == productId)){
+    if (tempList.any((element) => element.id == productId)) {
       tempList.removeWhere((element) => element.id == productId);
     }
     return tempList;

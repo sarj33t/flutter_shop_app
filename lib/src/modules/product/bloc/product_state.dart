@@ -15,52 +15,37 @@ class ProductState extends Equatable {
   final bool hasMoreData;
   final Product? productDetails;
 
-  const ProductState({
-    this.products = const [],
-    this.categories = const [],
-    this.error = '',
-    this.status = ApiStatus.idle,
-    this.page = 1,
-    this.hasMoreData = false,
-    this.productDetails
-  });
+  const ProductState(
+      {this.products = const [],
+      this.categories = const [],
+      this.error = '',
+      this.status = ApiStatus.idle,
+      this.page = 1,
+      this.hasMoreData = false,
+      this.productDetails});
 
-  ProductState copyWith({
-    List<Product>? productList,
-    List<String>? categoryList,
-    String? errorMsg,
-    ApiStatus? apiStatus,
-    int? pageVal,
-    bool? hasMore,
-    Product? details
-  }){
+  ProductState copyWith(
+      {List<Product>? productList,
+      List<String>? categoryList,
+      String? errorMsg,
+      ApiStatus? apiStatus,
+      int? pageVal,
+      bool? hasMore,
+      Product? details}) {
     return ProductState(
-      products: productList?? products,
-      categories: categoryList?? categories,
-      error: errorMsg?? error,
-      status: apiStatus?? status,
-      page: pageVal?? page,
-      hasMoreData: hasMore?? hasMoreData,
-      productDetails: details?? productDetails
-    );
+        products: productList ?? products,
+        categories: categoryList ?? categories,
+        error: errorMsg ?? error,
+        status: apiStatus ?? status,
+        page: pageVal ?? page,
+        hasMoreData: hasMore ?? hasMoreData,
+        productDetails: details ?? productDetails);
   }
 
   @override
-  List<Object?> get props => [
-    products,
-    categories,
-    error,
-    status,
-    page,
-    hasMoreData,
-    productDetails
-  ];
+  List<Object?> get props =>
+      [products, categories, error, status, page, hasMoreData, productDetails];
 }
 
 /// [ApiStatus]
-enum ApiStatus{
-  idle,
-  loading,
-  success,
-  failed
-}
+enum ApiStatus { idle, loading, success, failed }
